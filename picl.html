@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Honour the Picl</title>
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+        overflow: hidden;
+        font-family: serif;
+    }
+
+    #stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .layer {
+        position: absolute;
+        width: 320px;
+        height: auto;
+        opacity: 0.08;
+        animation: expand 12s linear infinite;
+    }
+
+    .layer img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @keyframes expand {
+        from {
+            transform: scale(1);
+            opacity: 0.12;
+        }
+        to {
+            transform: scale(6);
+            opacity: 0;
+        }
+    }
+
+#center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+
+    #center img {
+        width: 320px;
+        height: auto;
+        display: block;
+    }
+
+    #ui {
+        position: absolute;
+        bottom: 30px;
+        width: 100%;
+        text-align: center;
+        color: #000;
+        font-size: 18px;
+    }
+</style>
+</head>
+
+<body>
+
+<div id="stage"></div>
+
+<div id="center">
+    <img src="picl.jpeg" alt="The Picl">
+</div>
+
+<div id="ui">
+    <div id="timer">You have been honouring the picl for 0 seconds.</div>
+    <div id="title">You are an Amateur of the picl.</div>
+</div>
+
+<script>
+    const stage = document.getElementById("stage");
+
+    // spawn expanding layers forever
+    setInterval(() => {
+        const layer = document.createElement("div");
+        layer.className = "layer";
+
+        const img = document.createElement("img");
+        img.src = "picl.jpeg";
+
+        layer.appendChild(img);
+        stage.appendChild(layer);
+
+        setTimeout(() => layer.remove(), 12000);
+    }, 700);
+
+    // title tiers
+    const titles = [
+        { t: 0,     name: "Amateur" },
+        { t: 5,     name: "Pia" },
+        { t: 15,    name: "Learner" },
+        { t: 30,    name: "Devotee" },
+        { t: 50,    name: "Master" },
+        { t: 100,   name: "Adept" },
+        { t: 200,   name: "Watcher" },
+        { t: 400,   name: "Follower" },
+        { t: 700,   name: "Keeper" },
+        { t: 1000,  name: "Bearer" },
+        { t: 1500,  name: "Interpreter" },
+        { t: 2200,  name: "Acolyte" },
+        { t: 3000,  name: "Speaker" },
+        { t: 4000,  name: "Witness" },
+        { t: 5500,  name: "Archivist" },
+        { t: 7000,  name: "Chronicler" },
+        { t: 9000,  name: "Oracle" },
+        { t: 11000, name: "Eminence" },
+        { t: 13000, name: "Ascended" },
+        { t: 15000, name: "Eternal Vessel" }
+    ];
+
+    let seconds = 0;
+
+    setInterval(() => {
+        seconds++;
+
+        document.getElementById("timer").textContent =
+            `You have been honouring the picl for ${seconds} seconds.`;
+
+        let current = titles[0].name;
+        for (const tier of titles) {
+            if (seconds >= tier.t) current = tier.name;
+        }
+
+        document.getElementById("title").textContent =
+            `You are a ${current} of the picl.`;
+
+    }, 1000);
+</script>
+
+</body>
+</html>
